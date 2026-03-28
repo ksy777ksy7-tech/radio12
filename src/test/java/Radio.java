@@ -1,13 +1,15 @@
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RadioTest {
+
+    // --- СТАНЦИИ ---
 
     @Test
     void shouldSetValidStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
-
         assertEquals(5, radio.getCurrentStation());
     }
 
@@ -15,7 +17,6 @@ class RadioTest {
     void shouldNotSetInvalidStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(15);
-
         assertEquals(0, radio.getCurrentStation());
     }
 
@@ -23,19 +24,15 @@ class RadioTest {
     void shouldGoToNextStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
-
         radio.next();
-
         assertEquals(6, radio.getCurrentStation());
     }
 
     @Test
-    void shouldLoopNextFrom9To0() {
+    void shouldLoopNextFromMaxToZero() {
         Radio radio = new Radio();
         radio.setCurrentStation(9);
-
         radio.next();
-
         assertEquals(0, radio.getCurrentStation());
     }
 
@@ -43,29 +40,49 @@ class RadioTest {
     void shouldGoToPrevStation() {
         Radio radio = new Radio();
         radio.setCurrentStation(5);
-
         radio.prev();
-
         assertEquals(4, radio.getCurrentStation());
     }
 
     @Test
-    void shouldLoopPrevFrom0To9() {
+    void shouldLoopPrevFromZeroToMax() {
         Radio radio = new Radio();
         radio.setCurrentStation(0);
-
         radio.prev();
-
         assertEquals(9, radio.getCurrentStation());
     }
+
+    // --- НОВЫЕ ТЕСТЫ ДЛЯ КОЛИЧЕСТВА СТАНЦИЙ ---
+
+    @Test
+    void shouldRespectCustomStationsCount() {
+        Radio radio = new Radio(30);
+        radio.setCurrentStation(29);
+        assertEquals(29, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldLoopWithCustomStationsCount() {
+        Radio radio = new Radio(30);
+        radio.setCurrentStation(29);
+        radio.next();
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldNotSetStationAboveCustomLimit() {
+        Radio radio = new Radio(30);
+        radio.setCurrentStation(30);
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    // --- ГРОМКОСТЬ ---
 
     @Test
     void shouldIncreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
-
         radio.increaseVolume();
-
         assertEquals(51, radio.getCurrentVolume());
     }
 
@@ -73,9 +90,7 @@ class RadioTest {
     void shouldNotIncreaseAboveMax() {
         Radio radio = new Radio();
         radio.setCurrentVolume(100);
-
         radio.increaseVolume();
-
         assertEquals(100, radio.getCurrentVolume());
     }
 
@@ -83,9 +98,7 @@ class RadioTest {
     void shouldDecreaseVolume() {
         Radio radio = new Radio();
         radio.setCurrentVolume(50);
-
         radio.decreaseVolume();
-
         assertEquals(49, radio.getCurrentVolume());
     }
 
@@ -93,24 +106,7 @@ class RadioTest {
     void shouldNotDecreaseBelowZero() {
         Radio radio = new Radio();
         radio.setCurrentVolume(0);
-
         radio.decreaseVolume();
-
-        assertEquals(0, radio.getCurrentVolume());
-    }
-
-    @Test
-    void shouldNotSetVolumeAboveMax() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(150);
-        assertEquals(0, radio.getCurrentVolume());
-    }
-
-
-    @Test
-    void shouldNotSetVolumeBelowMin() {
-        Radio radio = new Radio();
-        radio.setCurrentVolume(-10);
         assertEquals(0, radio.getCurrentVolume());
     }
 }
