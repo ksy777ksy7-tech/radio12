@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RadioTest {
@@ -111,6 +112,95 @@ class RadioTest {
     void shouldNotSetVolumeBelowMin() {
         Radio radio = new Radio();
         radio.setCurrentVolume(-10);
+        assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldSetStationToMinBoundary() {
+        Radio radio = new Radio();
+
+        radio.setCurrentStation(0);
+
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldSetStationToMaxBoundary() {
+        Radio radio = new Radio();
+
+        radio.setCurrentStation(9);
+
+        assertEquals(9, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldNotChangeStationWhenInvalidNegative() {
+        Radio radio = new Radio();
+
+        radio.setCurrentStation(-1);
+
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldStayAtZeroWhenPrevCalledMultipleTimes() {
+        Radio radio = new Radio();
+
+        radio.setCurrentStation(0);
+        radio.prev();
+        radio.prev();
+
+        assertEquals(8, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldStayAtMaxWhenNextCalledMultipleTimes() {
+        Radio radio = new Radio();
+
+        radio.setCurrentStation(9);
+        radio.next();
+        radio.next();
+
+        assertEquals(1, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldSetVolumeToMinBoundary() {
+        Radio radio = new Radio();
+
+        radio.setCurrentVolume(0);
+
+        assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldSetVolumeToMaxBoundary() {
+        Radio radio = new Radio();
+
+        radio.setCurrentVolume(100);
+
+        assertEquals(100, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldNotIncreaseVolumeWhenAlreadyMaxMultipleTimes() {
+        Radio radio = new Radio();
+
+        radio.setCurrentVolume(100);
+        radio.increaseVolume();
+        radio.increaseVolume();
+
+        assertEquals(100, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldNotDecreaseVolumeWhenAlreadyMinMultipleTimes() {
+        Radio radio = new Radio();
+
+        radio.setCurrentVolume(0);
+        radio.decreaseVolume();
+        radio.decreaseVolume();
+
         assertEquals(0, radio.getCurrentVolume());
     }
 }
