@@ -109,4 +109,53 @@ class RadioTest {
         radio.decreaseVolume();
         assertEquals(0, radio.getCurrentVolume());
     }
+    @Test
+    void shouldUseDefaultStationsCountIfNegative() {
+        Radio radio = new Radio(-5);
+        radio.setCurrentStation(9);
+        assertEquals(9, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldNotSetNegativeStation() {
+        Radio radio = new Radio();
+        radio.setCurrentStation(-1);
+        assertEquals(0, radio.getCurrentStation());
+    }
+
+    @Test
+    void shouldSetStationZero() {
+        Radio radio = new Radio();
+        radio.setCurrentStation(0);
+        assertEquals(0, radio.getCurrentStation());
+    }
+    
+
+    @Test
+    void shouldSetVolumeToZero() {
+        Radio radio = new Radio();
+        radio.setCurrentVolume(0);
+        assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldSetVolumeToMax() {
+        Radio radio = new Radio();
+        radio.setCurrentVolume(100);
+        assertEquals(100, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldNotSetVolumeAboveMax() {
+        Radio radio = new Radio();
+        radio.setCurrentVolume(150);
+        assertEquals(0, radio.getCurrentVolume());
+    }
+
+    @Test
+    void shouldNotSetNegativeVolume() {
+        Radio radio = new Radio();
+        radio.setCurrentVolume(-10);
+        assertEquals(0, radio.getCurrentVolume());
+    }
 }
