@@ -6,9 +6,9 @@ class RadioTest {
     @Test
     void shouldSetValidStation() {
         Radio radio = new Radio();
-        radio.setCurrentStation(5);
+        radio.setCurrentStation(4);
 
-        assertEquals(5, radio.getCurrentStation());
+        assertEquals(4, radio.getCurrentStation());
     }
 
     @Test
